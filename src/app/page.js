@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -23,36 +24,34 @@ export default function Dashboard() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-     {/* Header Section */}
-<header className="bg-white shadow-lg sticky top-0 z-50">
-  <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-    {/* Logo and Title */}
-    <div className="flex items-center space-x-4">
-      <img src="/logo.png" alt="Cloud Logo" className="w-10 h-10"/>
-      <h1 className="text-3xl font-extrabold text-gray-900">CloudWalkers' Protection Inc</h1>
-    </div>
-    
-    {/* Navigation Links */}
-    <nav className="flex space-x-6 ">
-      <a href="#" className="text-lg text-gray-700 hover:text-gray-900 font-medium">Home</a>
-      <a href="#" className="text-lg text-gray-700 hover:text-gray-900 font-medium">Reports</a>
-      <a href="#" className="text-lg text-gray-700 hover:text-gray-900 font-medium">Settings</a>
-      <a href="#" className="text-lg text-blue-600 hover:text-gray-900 font-medium">Go to Cloud</a>
-      <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 font-medium">Logout</button>
-    </nav>
-    
-    {/* Profile Section */}
-    <div className="flex items-center space-x-4">
-     
-      <div className="flex items-center space-x-3">
-        <span className="text-lg text-gray-700 font-medium">Client Pvt. Ltd</span>
-        <img src="/client.jpg" alt="Profile" className="w-10 h-10 rounded-full border-2 border-blue-500"/>
-      </div>
-    </div>
-  </div>
-</header>
+      {/* Header Section */}
+      <header className="bg-white shadow-lg sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          {/* Logo and Title */}
+          <div className="flex items-center space-x-4">
+            <Image src="/logo.png" alt="Cloud Logo" width={40} height={40} />
+            <h1 className="text-3xl font-extrabold text-gray-900">
+              CloudWalkers Protection Inc
+            </h1>
+          </div>
 
-
+          {/* Profile Section */}
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <span className="text-lg text-gray-700 font-medium">
+                Client Pvt. Ltd
+              </span>
+              <Image
+                src="/client.jpg"
+                alt="Profile"
+                width={40}
+                height={40}
+                className="rounded-full border-2 border-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+      </header>
       {/* Main Content */}
       <div className="container mx-auto p-6">
         {/* Statistics Cards */}
@@ -128,7 +127,9 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-white p-6 shadow rounded-lg">
-            <h3 className="text-xl text-slate-700 font-semibold mb-4">Configuration</h3>
+            <h3 className="text-xl text-slate-700 font-semibold mb-4">
+              Configuration
+            </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-gray-700">DDoS Protection</span>
@@ -167,7 +168,7 @@ export default function Dashboard() {
                 </label>
               </div>
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-gray-700">Client-side Load Balancing</span>
+                <span className="font-semibold text-gray-700">Load Balancing</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
@@ -182,134 +183,76 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* New Request / Action Form */}
-        <div className="mt-8 bg-white p-6 shadow rounded-lg">
-        <h3 className="text-xl text-slate-700 font-semibold mb-4">New Request / Action</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col">
-            <label htmlFor="banType" className="text-slate-700 font-semibold mb-2">Type of Action to be taken</label>
-            <select
-              id="banType"
-              value={banType}
-              onChange={(e) => setBanType(e.target.value)}
-              className="p-2 border rounded text-slate-700"
-            >
-              <option value="">Select Ban Type</option>
-              <option value="ip">IP Ban</option>
-              <option value="range">IP Range Ban</option>
-              <option value="country">Country Ban</option>
-              <option value="timestamp">Timestamp Ban</option>
-              <option value="region">Region Ban</option>
-            </select>
+        {/* Form for Blocking IP */}
+        <form onSubmit={handleSubmit} className="bg-white p-6 shadow rounded-lg mt-6 space-y-4">
+          <h3 className="text-xl font-semibold text-gray-700">Block IP Address</h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="col-span-1">
+              <label htmlFor="banType" className="block font-medium text-gray-700">
+                Ban Type
+              </label>
+              <select
+                id="banType"
+                value={banType}
+                onChange={(e) => setBanType(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              >
+                <option value="">Select a ban type</option>
+                <option value="temporary">Temporary</option>
+                <option value="permanent">Permanent</option>
+              </select>
+            </div>
+
+            <div className="col-span-1">
+              <label htmlFor="duration" className="block font-medium text-gray-700">
+                Duration (in days)
+              </label>
+              <input
+                id="duration"
+                type="number"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                min="1"
+              />
+            </div>
+
+            <div className="col-span-1">
+              <label htmlFor="threshold" className="block font-medium text-gray-700">
+                Threat Threshold
+              </label>
+              <input
+                id="threshold"
+                type="number"
+                value={threshold}
+                onChange={(e) => setThreshold(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                min="0"
+              />
+            </div>
           </div>
 
-          {/* Conditional rendering based on selected ban type */}
-          {banType && (
-            <div className="space-y-4">
-              {banType === "ip" && (
-                <div className="flex flex-col">
-                  <label htmlFor="ipAddress" className="text-slate-700 font-semibold mb-2">IP Address</label>
-                  <input
-                    id="ipAddress"
-                    type="text"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                    className="p-2 border rounded text-slate-700"
-                  />
-                </div>
-              )}
-              {banType === "range" && (
-                <div className="flex flex-col">
-                  <label htmlFor="ipRange" className="text-slate-700 font-semibold mb-2">IP Range</label>
-                  <input
-                    id="ipRange"
-                    type="text"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                    className="p-2 border rounded text-slate-700"
-                  />
-                </div>
-              )}
-              {banType === "country" && (
-                <div className="flex flex-col">
-                  <label htmlFor="country" className="text-slate-700 font-semibold mb-2">Country</label>
-                  <input
-                    id="country"
-                    type="text"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                    className="p-2 border rounded text-slate-700"
-                  />
-                </div>
-              )}
-              {banType === "timestamp" && (
-                <div className="flex flex-col">
-                  <label htmlFor="timestamp" className="text-slate-700 font-semibold mb-2">Timestamp</label>
-                  <input
-                    id="timestamp"
-                    type="datetime-local"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                    className="p-2 border rounded text-slate-700"
-                  />
-                </div>
-              )}
-              {banType === "region" && (
-                <div className="flex flex-col">
-                  <label htmlFor="region" className="text-slate-700 font-semibold mb-2">Cloud Region</label>
-                  <select
-                    id="region"
-                    value={details}
-                    onChange={(e) => setDetails(e.target.value)}
-                    className="p-2 border rounded text-slate-700"
-                  >
-                    <option value="">Select Region</option>
-                    <option value="us-east-1">US East (N. Virginia)</option>
-                    <option value="us-west-2">US West (Oregon)</option>
-                    <option value="eu-central-1">EU (Frankfurt)</option>
-                    <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
-                    {/* Add more regions as needed */}
-                  </select>
-                </div>
-              )}
+          <div>
+            <label htmlFor="reason" className="block font-medium text-gray-700">
+              Reason
+            </label>
+            <textarea
+              id="reason"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows="3"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+            ></textarea>
+          </div>
 
-              {/* Common fields */}
-              <div className="flex flex-col">
-                <label htmlFor="duration" className="text-slate-700 font-semibold mb-2">Duration (hours)</label>
-                <input
-                  id="duration"
-                  type="number"
-                  value={duration}
-                  onChange={(e) => setDuration(parseInt(e.target.value))}
-                  className="p-2 border rounded text-slate-700"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="threshold" className="text-slate-700 font-semibold mb-2">Threshold</label>
-                <input
-                  id="threshold"
-                  type="number"
-                  value={threshold}
-                  onChange={(e) => setThreshold(parseInt(e.target.value))}
-                  className="p-2 border rounded text-slate-700"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label htmlFor="reason" className="text-slate-700 font-semibold mb-2">Reason</label>
-                <textarea
-                  id="reason"
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  className="p-2 border rounded text-slate-700"
-                  rows="4"
-                ></textarea>
-              </div>
-            </div>
-          )}
-
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit Request</button>
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+          >
+            Block IP
+          </button>
         </form>
-      </div>
       </div>
     </div>
   );
